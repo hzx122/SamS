@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# 单卡
+
 python -u train_dist.py \
     model=llama3_8b \
     model.name_or_path=/path/to/models/Meta-Llama-3-8B-Instruct \
