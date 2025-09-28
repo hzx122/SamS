@@ -1,6 +1,5 @@
 # Adaptive Sample Scheduling for Direct Preference Optimization (SamS)
-
-This repository contains the code  for our paper: Adaptive Sample Scheduling for Direct Preference Optimization(SamS).
+Code for AAAI 2024 paper "Adaptive Sample Scheduling for Direct Preference Optimization".
 
 The files in this repo are:
 
