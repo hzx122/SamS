@@ -1,5 +1,5 @@
 # Adaptive Sample Scheduling for Direct Preference Optimization (SamS)
-Code for AAAI 2024 paper "Adaptive Sample Scheduling for Direct Preference Optimization".
+Code for NeurIPS 2025 paper "Adaptive Sample Scheduling for Direct Preference Optimization".
 
 The files in this repo are:
 
