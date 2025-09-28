@@ -1,0 +1,9 @@
+name_or_path: /path/to/Mistral-7B-v0.1
+tokenizer_name_or_path: null
+archive: null
+# for fsdp
+block_name: MistralDecoderLayer
+policy_dtype: float32
+fsdp_policy_mp: null
+reference_dtype: float16
+

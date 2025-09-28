@@ -1,0 +1,9 @@
+name_or_path: /path/to/Meta-Llama-3-8B-Instruct
+tokenizer_name_or_path: null
+archive: null
+# for fsdp
+block_name: LlamaDecoderLayer
+policy_dtype: float32
+fsdp_policy_mp: null
+reference_dtype: float16
+

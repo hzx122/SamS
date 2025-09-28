@@ -1,0 +1,149 @@
+# random seed for batch sampling
+seed: 0
+
+# name for this experiment in the local run directory and on wandb
+exp_name: xxx
+
+# the batch size for training; for FSDP, the batch size per GPU is batch_size / (grad_accumulation_steps * num_gpus)
+batch_size: 4
+
+# the batch size during evaluation and sampling, if enabled
+eval_batch_size: 16
+
+# debug mode (disables wandb, model checkpointing, etc.)
+debug: false
+
+# the port to use for FSDP
+fsdp_port: null
+
+# which dataset(s) to train on; can pass a list like datasets=[hh,shp]
+datasets:
+- hh
+
+# wandb configuration
+wandb:
+  enabled: true
+  entity: xxx  # team name
+  project: xxx  # project name
+
+# to create the local run directory and cache models/datasets,
+#   we will try each of these directories in order; if none exist,
+#   we will create the last one and use it
+local_dirs:
+  # - /scr-ssd
+  # - /scr
+  # - .cache
+  - xxx
+
+# whether or not to generate samples during evaluation; disable for FSDP/TensorParallel
+#   is recommended, because they are slow
+sample_during_eval: true
+
+# how many model samples to generate during evaluation
+n_eval_model_samples: 16
+
+# whether to eval at the very beginning of training  改掉了！ 
+do_first_eval: false
+
+# an OmegaConf resolver that returns the local run directory, calling a function in utils.py
+local_run_dir: ${get_local_run_dir:${exp_name},${local_dirs}}
+
+# the learning rate
+lr: 5e-7
+
+# number of steps to accumulate over for each batch
+#   (e.g. if batch_size=4 and gradient_accumulation_steps=2, then we will
+#   accumulate gradients over 2 microbatches of size 2)
+gradient_accumulation_steps: 1
+
+# the maximum gradient norm to clip to
+max_grad_norm: 10.0
+
+# the maximum allowed length for an input (prompt + response)
+max_length: 2048
+
+# the maximum allowed length for a prompt
+max_prompt_length: 1800
+
+# the number of epochs to train for; if null, must specify n_examples
+n_epochs: 2
+
+# the number of examples to train for; if null, must specify n_epochs
+n_examples: null
+
+# the number of examples to evaluate on (and sample from, if sample_during_eval is true)
+n_eval_examples: 256
+
+# the trainer class to use (e.g. BasicTrainer, FSDPTrainer, TensorParallelTrainer)
+trainer: BasicTrainer
+
+# The optimizer to use; we use RMSprop because it works about as well as Adam and is more memory-efficient
+optimizer: RMSprop
+
+# number of linear warmup steps for the learning rate
+warmup_steps: 150
+
+# whether or not to use activation/gradient checkpointing
+activation_checkpointing: false
+
+# evaluate and save model every eval_every steps
+eval_every: 1000
+save_every: 40000
+
+# prevent wandb from logging more than once per minimum_log_interval_secs
+minimum_log_interval_secs: 1.0
+
+bandit:
+  load_bandit: false
+  bandit_dir:  xxx
+  block_size: 16
+  f1_hidden_size: 4096
+  f1_num_layers: 16
+  f2_num_layers: 16
+  lr: 0.0001 #0.0005
+  net1_norm: ln
+  net2_norm: ln
+  net1_activate: relu
+  net2_activate: relu
+  weight_decay: 0.00001
+  f1_num_epochs: 1
+  f1_num_batch: 2
+  f2_num_epochs: 1
+  f2_num_batch: 2
+  f1_loss_threshold: 5e-5
+  f2_loss_threshold: 5e-5
+  f1_dropout: true
+  f2_dropout: true
+  f1_drop_rate: 0.3
+  f2_drop_rate: 0.3
+  last_hiddenstate_only: true
+  f1_only: true
+  selected_ratio: 0.5
+  theta: 0.1 # loss weighted with hiddenstate when before input
+  use_pool: true
+  pool_size: 40000 # max bandit batch saved num  = pool_size 
+  pool_use_num: 32 # train sample num = (pool_use_num+1) * selected_batch_size
+  use_sig_loss: true # use loss with no log as label
+  concat_wl: false # concat hiddenstates of y_w and y_l rather than avg
+  use_combine_loss: true
+  init_weight_constraint: false # add constraint to loss to avoid over modified  not implement yet
+  construct_bandit_reward: true # construct batch and sample level loss
+  f1_reward_type: add_rm_logp # part1：add  weight null  part2: rm rw logp  
+  use_all_samples: true
+  norm_metrics: false
+  train_only: false
+  use_encoder: true
+  connector_hidden_dim: 1024
+  encoder_name_or_path: xxx
+  enable_bandit: false
+  layer_encoder: true
+  forward_only: false  # not train bandit, only use it 
+  enable_avg_reward: false
+  train_step: 1 # each train step train bandit once
+  f2_weight: 0.1
+  pretrain: false
+
+defaults:
+- _self_
+- model: blank_model_fp32 # basic model configuration
+- loss: sft # which loss function, either sft or dpo (specify loss.beta if using dpo)
