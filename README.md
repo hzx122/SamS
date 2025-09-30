@@ -1,6 +1,8 @@
 # Adaptive Sample Scheduling for Direct Preference Optimization (SamS)
 Code for NeurIPS 2025 paper "Adaptive Sample Scheduling for Direct Preference Optimization".
 
+#要加上流程图和列出来SamS的核心创新点， 以及最后加上引用
+
 The files in this repo are:
 
 - `train_raw_dist.py`: the main entry point for training (either SFT or DPO preference-based training)
