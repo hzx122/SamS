@@ -7,7 +7,6 @@ The effectiveness of offline Direct Preference Optimization (DPO) relies on the 
 Thus, there exists a high-quality subset and a sample scheduling order that outperform randomly shuffled full dataset training. Our approach is to dynamically identify, in each DPO training round, the most beneficial samples for the model based on the policy model's feedback, using them as a high-quality subset for training.
 
 We model this sample selection as a multi-armed bandit problem and employ an exploration-exploitation network-based scheduler during training: 
-
 **1. estimate reward distribution (score each sample) 
 2. select high-reward arms (choose high-scoring samples as the subset)
 3. observe rewards of selected arms and update the reward distribution estimate (update the scheduler)**
