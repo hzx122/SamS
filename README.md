@@ -1,6 +1,23 @@
 # Adaptive Sample Scheduling for Direct Preference Optimization (SamS)
 Code for NeurIPS 2025 paper "Adaptive Sample Scheduling for Direct Preference Optimization".
 
+---
+The effectiveness of offline Direct Preference Optimization (DPO) relies on the quality of preference sample pairs. However, existing offline preference datasets often contain noise, and the same set of samples presents varying learning difficulties for models at different states. 
+
+Thus, there exists a high-quality subset and a sample scheduling order that outperform randomly shuffled full dataset training. Our approach is to dynamically identify, in each DPO training round, the most beneficial samples for the model based on the policy model's feedback, using them as a high-quality subset for training.
+
+We model this sample selection as a multi-armed bandit problem and employ an exploration-exploitation network-based scheduler during training: 
+
+**1. estimate reward distribution (score each sample) 
+2. select high-reward arms (choose high-scoring samples as the subset)
+3. observe rewards of selected arms and update the reward distribution estimate (update the scheduler)**
+
+
+
+![截屏2025-09-30 18.31.04](./figs/main.png)
+
+---
+
 The files in this repo are:
 
 - `train_raw_dist.py`: the main entry point for training (either SFT or DPO preference-based training)
@@ -66,3 +83,13 @@ The training config is set for 8xA100 GPUs. For specific  tutorial for running t
 **Run DPO:**
 
     sh run_dpo.sh 
+
+## Citation
+If you find SamS or code useful, please cite
+
+    @article{huang2025adaptive,
+      title={Adaptive Sample Scheduling for Direct Preference Optimization},
+      author={Huang, Zixuan and Ban, Yikun and Fu, Lean and Li, Xiaojie and Dai, Zhongxiang and Li, Jianxin and Wang, Deqing},
+      journal={arXiv preprint arXiv:2506.17252},
+      year={2025}
+    }
